@@ -1,6 +1,6 @@
 ;;; advice-patch.el --- Use patches to advise the inside of functions  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019  Free Software Foundation, Inc.
+;; Copyright (C) 2019-2020  Free Software Foundation, Inc.
 
 ;; Author: Stefan Monnier <monnier@iro.umontreal.ca>
 ;; Package-requires: ((emacs "24.4"))
@@ -33,6 +33,17 @@
 
 ;; Beware: this can eat your lunch and can misbehave unexpectedly in many
 ;; legitimate cases.
+
+;; Use it is as follows:
+;;
+;;     (advice-patch 'foo (my new code)
+;;                   [(some old code)
+;;                    (some (other version) (of the old) code))])
+;;
+;; This will fetch the source code of `foo', look for an occurrence
+;; of one of the old code chunks listed, replace it with
+;; `(my new code)', compile the result, and finally ask `advice-add' to use it
+;; to override the original definition.
 
 ;;;; TODO:
 
